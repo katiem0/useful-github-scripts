@@ -1,3 +1,7 @@
+"""
+Script to create secrets for an organization and it's repositories.
+"""
+
 import csv
 import json
 import os
@@ -70,20 +74,20 @@ def main():
     result_org_action_publickey = apis.actions.ActionsSecrets.get_org_public_key(
         base_api_url, api_headers, ORGANIZATION_NAME
     )
-    ACTION_ORG_PUBLIC_KEY_ID = result_org_action_publickey["key_id"]
-    ACTION_ORG_PUBLIC_KEY_32BYTES = result_org_action_publickey["key"]
+    action_org_public_key_id = result_org_action_publickey["key_id"]
+    action_org_public_key_32bytes = result_org_action_publickey["key"]
 
     # Retrieve unique dependabot public key and key id pair for an organization:
     result_org_depd_publickey = apis.dependabot.DependabotSecrets.get_org_public_key(
         base_api_url, api_headers, ORGANIZATION_NAME
     )
-    DEPENDABOT_ORG_PUBLIC_KEY_ID = result_org_depd_publickey["key_id"]
-    DEPENDABOT_ORG_PUBLIC_KEY_32BYTES = result_org_depd_publickey["key"]
+    dependabot_org_public_key_id = result_org_depd_publickey["key_id"]
+    dependabot_org_public_key_32bytes = result_org_depd_publickey["key"]
 
     # Load properties that will be added/updated in a wanted organization:
     map_properties = json.loads(create_properties_map(NAME_PROPERTIES_FILE))
 
-    # Loop through properties loaded from CSV file to create/update GitHub Actions in an organization:
+    # Loop through properties loaded from CSV file to create/update GitHub Actions in an org:
     for row in map_properties:
         # Remove any white space:
         secret_level = row["SecretLevel"].replace(" ", "")
@@ -96,10 +100,10 @@ def main():
 
         # Get encrypted value based on 32 bytes long public key from GitHub:
         action_org_encrypted_value = encrypt(
-            ACTION_ORG_PUBLIC_KEY_32BYTES, secret_value
+            action_org_public_key_32bytes, secret_value
         )
         dependabot_org_encrypted_value = encrypt(
-            DEPENDABOT_ORG_PUBLIC_KEY_32BYTES, secret_value
+            dependabot_org_public_key_32bytes, secret_value
         )
 
         # Create or update GitHub Actions secrets for all repositories:
@@ -113,7 +117,7 @@ def main():
                             ORGANIZATION_NAME,
                             secret_name,
                             action_org_encrypted_value,
-                            ACTION_ORG_PUBLIC_KEY_ID,
+                            action_org_public_key_id,
                             secret_visibility,
                             secret_repo_id,
                         )
@@ -125,7 +129,7 @@ def main():
                         ORGANIZATION_NAME,
                         secret_name,
                         dependabot_org_encrypted_value,
-                        DEPENDABOT_ORG_PUBLIC_KEY_ID,
+                        dependabot_org_public_key_id,
                         secret_visibility,
                         secret_repo_id,
                     )
@@ -137,7 +141,7 @@ def main():
                         ORGANIZATION_NAME,
                         secret_name,
                         action_org_encrypted_value,
-                        ACTION_ORG_PUBLIC_KEY_ID,
+                        action_org_public_key_id,
                         secret_visibility,
                     )
                 else:
@@ -147,7 +151,7 @@ def main():
                         ORGANIZATION_NAME,
                         secret_name,
                         dependabot_org_encrypted_value,
-                        DEPENDABOT_ORG_PUBLIC_KEY_ID,
+                        dependabot_org_public_key_id,
                         secret_visibility,
                     )
 
@@ -158,8 +162,8 @@ def main():
                     base_api_url, api_headers, ORGANIZATION_NAME, secret_repo
                 )
             )
-            ACTION_REPO_PUBLIC_KEY_ID = result_repo_action_publickey["key_id"]
-            ACTION_REPO_PUBLIC_KEY_32BYTES = result_repo_action_publickey["key"]
+            action_repo_public_key_id = result_repo_action_publickey["key_id"]
+            action_repo_public_key_32bytes = result_repo_action_publickey["key"]
 
             # Retrieve unique dependabot public key and key id pair for an organization:
             result_repo_depd_publickey = (
@@ -167,14 +171,14 @@ def main():
                     base_api_url, api_headers, ORGANIZATION_NAME, secret_repo
                 )
             )
-            DEPENDABOT_REPO_PUBLIC_KEY_ID = result_repo_depd_publickey["key_id"]
-            DEPENDABOT_REPO_PUBLIC_KEY_32BYTES = result_repo_depd_publickey["key"]
+            dependabot_repo_public_key_id = result_repo_depd_publickey["key_id"]
+            dependabot_repo_public_key_32bytes = result_repo_depd_publickey["key"]
 
             action_repo_encrypted_value = encrypt(
-                ACTION_REPO_PUBLIC_KEY_32BYTES, secret_value
+                action_repo_public_key_32bytes, secret_value
             )
             dependabot_repo_encrypted_value = encrypt(
-                DEPENDABOT_REPO_PUBLIC_KEY_32BYTES, secret_value
+                dependabot_repo_public_key_32bytes, secret_value
             )
             if secret_type == "Action":
                 result = apis.actions.ActionsSecrets.update_repo_secret(
@@ -184,7 +188,7 @@ def main():
                     secret_repo,
                     secret_name,
                     action_repo_encrypted_value,
-                    ACTION_REPO_PUBLIC_KEY_ID,
+                    action_repo_public_key_id,
                 )
             else:
                 result = apis.dependabot.DependabotSecrets.update_repo_secret(
@@ -194,7 +198,7 @@ def main():
                     secret_repo,
                     secret_name,
                     dependabot_repo_encrypted_value,
-                    DEPENDABOT_REPO_PUBLIC_KEY_ID,
+                    dependabot_repo_public_key_id,
                 )
 
         else:

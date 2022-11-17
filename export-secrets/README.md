@@ -6,8 +6,11 @@ The script [`get_all_secrets.py`](get_all_secrets.py) utilizes GitHub's GraphQL 
   - If applicable, the repositories that the secret is scoped to
 - Organization level Dependabot secrets
   - If applicable, the repositories that the secret is scoped to
+- Organization level Codespaces secrets
+  - If applicable, the repositories that the secret is scoped to
 - Repository level Action secrets
 - Repository level Dependabot secrets
+- Repository level Codespaces secrets
 
 ## Requirements
 
