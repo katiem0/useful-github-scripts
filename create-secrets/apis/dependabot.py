@@ -1,7 +1,7 @@
 """
 Endpoints to manage Dependabot using the REST API.
 """
-# pylint: disable=too-many-arguments, too-many-public-methods, too-many-lines, duplicate-code, line-too-long, no-self-argument
+# pylint: disable=too-many-arguments, too-many-public-methods, too-many-lines, duplicate-code, no-self-argument
 
 import requests
 
@@ -51,9 +51,7 @@ class DependabotSecrets:
             "visibility": visibility,
             "selected_repository_ids": repo_to_strings,
         }
-        org_update_secret_url = (
-            f"{api_url}/orgs/{org}/dependabot/secrets/{secret_name}"
-        )
+        org_update_secret_url = f"{api_url}/orgs/{org}/dependabot/secrets/{secret_name}"
 
         result = requests.put(org_update_secret_url, headers=headers, json=data)
         return result
@@ -75,9 +73,7 @@ class DependabotSecrets:
             "key_id": key_id,
             "visibility": visibility,
         }
-        org_update_secret_url = (
-            f"{api_url}/orgs/{org}/dependabot/secrets/{secret_name}"
-        )
+        org_update_secret_url = f"{api_url}/orgs/{org}/dependabot/secrets/{secret_name}"
 
         result = requests.put(org_update_secret_url, headers=headers, json=data)
         return result

@@ -1,7 +1,7 @@
 """
 Endpoints to manage Actions Secrets using the REST API.
 """
-# pylint: disable=too-many-arguments, too-many-public-methods, too-many-lines, duplicate-code, line-too-long, no-self-argument
+# pylint: disable=too-many-arguments, too-many-public-methods, too-many-lines, duplicate-code, no-self-argument
 
 import requests
 
@@ -24,9 +24,7 @@ class ActionsSecrets:
         """
         Get unique 32 bytes public key from GitHub Actions
         """
-        repo_public_key_url = (
-            f"{api_url}/repos/{org}/{repo}/actions/secrets/public-key"
-        )
+        repo_public_key_url = f"{api_url}/repos/{org}/{repo}/actions/secrets/public-key"
 
         result = requests.get(repo_public_key_url, headers=headers)
         return result.json()
@@ -48,9 +46,7 @@ class ActionsSecrets:
             "key_id": key_id,
             "visibility": visibility,
         }
-        org_update_secret_url = (
-            f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
-        )
+        org_update_secret_url = f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
 
         result = requests.put(org_update_secret_url, headers=headers, json=data)
         return result
@@ -75,9 +71,7 @@ class ActionsSecrets:
             "visibility": visibility,
             "selected_repository_ids": repos_to_int,
         }
-        org_update_secret_url = (
-            f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
-        )
+        org_update_secret_url = f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
 
         result = requests.put(org_update_secret_url, headers=headers, json=data)
         return result
