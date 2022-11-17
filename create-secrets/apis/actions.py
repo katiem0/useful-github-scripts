@@ -15,27 +15,21 @@ class ActionsSecrets:
         """
         Get unique 32 bytes public key from GitHub Actions
         """
-        try:
-            ORG_PUBLIC_KEY_URL = f"{api_url}/orgs/{org}/actions/secrets/public-key"
+        org_public_key_url = f"{api_url}/orgs/{org}/actions/secrets/public-key"
 
-            result = requests.get(ORG_PUBLIC_KEY_URL, headers=headers)
-            return result.json()
-        except requests.exceptions.HTTPError as err:
-            print(err)
+        result = requests.get(org_public_key_url, headers=headers)
+        return result.json()
 
     def get_repo_public_key(api_url, headers, org: str, repo: str):
         """
         Get unique 32 bytes public key from GitHub Actions
         """
-        try:
-            ORG_PUBLIC_KEY_URL = (
-                f"{api_url}/repos/{org}/{repo}/actions/secrets/public-key"
-            )
+        repo_public_key_url = (
+            f"{api_url}/repos/{org}/{repo}/actions/secrets/public-key"
+        )
 
-            result = requests.get(ORG_PUBLIC_KEY_URL, headers=headers)
-            return result.json()
-        except requests.exceptions.HTTPError as err:
-            print(err)
+        result = requests.get(repo_public_key_url, headers=headers)
+        return result.json()
 
     def update_org_secret(
         api_url,
@@ -49,20 +43,17 @@ class ActionsSecrets:
         """
         Update or create GitHub Actions secrets for an organization
         """
-        try:
-            data = {
-                "encrypted_value": encrypted_value,
-                "key_id": key_id,
-                "visibility": visibility,
-            }
-            ORG_UPDATE_SECRET_URL = (
-                f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
-            )
+        data = {
+            "encrypted_value": encrypted_value,
+            "key_id": key_id,
+            "visibility": visibility,
+        }
+        org_update_secret_url = (
+            f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
+        )
 
-            result = requests.put(ORG_UPDATE_SECRET_URL, headers=headers, json=data)
-            return result
-        except requests.exceptions.HTTPError as err:
-            print(err)
+        result = requests.put(org_update_secret_url, headers=headers, json=data)
+        return result
 
     def update_org_secret_scoped(
         api_url,
@@ -77,22 +68,19 @@ class ActionsSecrets:
         """
         Update or create GitHub Actions secrets for an organization, scoped to a repo
         """
-        try:
-            repos_to_int = list(map(int, repo.split(";")))
-            data = {
-                "encrypted_value": encrypted_value,
-                "key_id": key_id,
-                "visibility": visibility,
-                "selected_repository_ids": repos_to_int,
-            }
-            ORG_UPDATE_SECRET_URL = (
-                f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
-            )
+        repos_to_int = list(map(int, repo.split(";")))
+        data = {
+            "encrypted_value": encrypted_value,
+            "key_id": key_id,
+            "visibility": visibility,
+            "selected_repository_ids": repos_to_int,
+        }
+        org_update_secret_url = (
+            f"{api_url}/orgs/{org}/actions/secrets/{secret_name}"
+        )
 
-            result = requests.put(ORG_UPDATE_SECRET_URL, headers=headers, json=data)
-            return result
-        except requests.exceptions.HTTPError as err:
-            print(err)
+        result = requests.put(org_update_secret_url, headers=headers, json=data)
+        return result
 
     def update_repo_secret(
         api_url,
@@ -106,12 +94,9 @@ class ActionsSecrets:
         """
         Update or create GitHub Actions secrets for a repository
         """
-        try:
-            data = {"encrypted_value": encrypted_value, "key_id": key_id}
-            REPO_UPDATE_SECRET_URL = (
-                f"{api_url}/repos/{org}/{repo}/actions/secrets/{secret_name}"
-            )
-            result = requests.put(REPO_UPDATE_SECRET_URL, headers=headers, json=data)
-            return result
-        except requests.exceptions.HTTPError as err:
-            print(err)
+        data = {"encrypted_value": encrypted_value, "key_id": key_id}
+        repo_update_secret_url = (
+            f"{api_url}/repos/{org}/{repo}/actions/secrets/{secret_name}"
+        )
+        result = requests.put(repo_update_secret_url, headers=headers, json=data)
+        return result
