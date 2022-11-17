@@ -1,0 +1,7 @@
+SecretLevel,SecretType,SecretName,SecretValue,SecretAccess,RepositoryName,RepositoryID
+Organization,Action,test_secret1,value1,selected,testing2;testing,123456789;987654321
+Repository,Action,test_secret2,value2,repo,testing2,123456789
+Organization,Dependabot,test_secret3,value3,all,testing2,123456789
+Repository,Dependabot,test_secret4,value4,repo,testing2,123456789
+Organization,Codespaces,test_secret5,value3,all,testing2,123456789
+Repository,Codespaces,test_secret6,value4,repo,testing2,123456789
