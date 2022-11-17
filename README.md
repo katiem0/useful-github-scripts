@@ -2,11 +2,11 @@
 
 A collection of scripts to aid in solving a problem that GitHub users experience.
 
-* Export Organization and Repo Secrets
-* Create Organization and Repo Secrets
+* Export Organization and Repository Secrets
+* Create Organization and Repository Secrets
 * Create Enterprise level Network Graph for all Organizations and Repositories
 
-## Export Organization and Repo Secrets
+## Export Organization and Repository Secrets
 
 A [script](/export-secrets/README.md) that utilizes GitHub's GraphQL and REST APIs to collect the following for an organization:
 
@@ -20,7 +20,7 @@ A [script](/export-secrets/README.md) that utilizes GitHub's GraphQL and REST AP
 - Repository level Dependabot secrets
 - Repository level Codespaces secrets
 
-## Create Organization and Repo Secrets
+## Create Organization and Repository Secrets
 
 A [script](/create-secrets/README.md) that utilizes GitHub's GraphQL and REST APIs to **create** the following for an organization:
 

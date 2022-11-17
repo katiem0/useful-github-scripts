@@ -110,17 +110,15 @@ def main():
         if secret_level == "Organization":
             if secret_visibility == "selected":
                 if secret_type == "Action":
-                    result = (
-                        apis.actions.ActionsSecrets.update_org_secret_scoped(
-                            base_api_url,
-                            api_headers,
-                            ORGANIZATION_NAME,
-                            secret_name,
-                            action_org_encrypted_value,
-                            action_org_public_key_id,
-                            secret_visibility,
-                            secret_repo_id,
-                        )
+                    result = apis.actions.ActionsSecrets.update_org_secret_scoped(
+                        base_api_url,
+                        api_headers,
+                        ORGANIZATION_NAME,
+                        secret_name,
+                        action_org_encrypted_value,
+                        action_org_public_key_id,
+                        secret_visibility,
+                        secret_repo_id,
                     )
                 else:
                     result = apis.dependabot.DependabotSecrets.update_org_secret_scoped(
